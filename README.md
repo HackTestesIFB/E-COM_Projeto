@@ -8,6 +8,8 @@
     * NodeJS
     * Express
     * Cors
+* Instalaçã0:
+    * `cd ./Servidor && npm install`
 
 ## App Flutter
 
@@ -17,3 +19,5 @@
     * Flutter
     * Dart
     * Http lib
+* Instalação:
+    * `cd ./app_flutter && flutter packages get`
