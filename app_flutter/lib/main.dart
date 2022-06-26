@@ -14,23 +14,6 @@ Future comprarJogos(String nome_do_jogo) async
     return await http.post(Uri.http('localhost:8000', '/RealizarCompra'), headers: {"Content-Type": "application/json"}, body: json.encode({'Nome': '$nome_do_jogo'}));
 }
 
-class Jogo
-{
-    final String _nome;
-    final String _descricao;
-    final String _foto;
-    final double _valor;
-
-    String get nome => _nome;
-    String get descricao => _descricao;
-    String get foto => _foto;
-    double get valor => _valor;
-
-    Jogo( this._nome, this._descricao, this._foto, this._valor);
-
-    Jogo.fromJson(Map json) : _nome=json['Nome'], _descricao=json['Descricao'], _foto=json['Imagem_capa'], _valor=json['Valor'];
-}
-
 void main() => runApp(const MeuApp());
 
 class MeuApp extends StatelessWidget
@@ -48,7 +31,7 @@ class MeuApp extends StatelessWidget
     }
 }
 
-class HomePage extends StatefulWidget 
+class HomePage extends StatefulWidget
 {
     const HomePage({Key? key}) : super(key: key);
 
@@ -66,8 +49,7 @@ class HomePageState extends State<HomePage>
         {
             setState(()
             {
-                Iterable lista = json.decode(response.body)['Jogos'];
-                jogos = json.decode(response.body)['Jogos'];// lista.map((model) => Jogo.fromJson(model)).toList();
+                jogos = json.decode(response.body)['Jogos'];
             });
         });
     }
