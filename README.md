@@ -8,7 +8,7 @@
     * NodeJS
     * Express
     * Cors
-* Instalaçã0:
+* Instalação:
     * `cd ./Servidor && npm install`
 
 ## App Flutter
