@@ -1,20 +1,24 @@
 #!/usr/bin/node --unhandled-rejections=strict
 
+// Bibliotecas necessárias
 const cors = require('cors');
 const express = require('express');
 const fs = require('fs');
 const util = require('util');
 
-
+// Configura o ExpressJS
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Cria um objeto JS a partir dos parâmetros
+// Atualizar os objetos fica mais fácil, pois só precisa alterar aqui
 function criaEntradaJogos(nome, descricao, imagem_link, valor)
 {
     return {'Nome': nome, 'Descricao': descricao, 'Imagem_capa': imagem_link, 'Valor': valor}
 }
 
+// Lista de objetos --> posteriormente podemos utilizar um HashMap para facilitar as consultas (HashMap --> array)
 jogos =
 [
     criaEntradaJogos('Halo: The Master Chief Collection', 'A lendária jornada do Master Chief está incluída em seis jogos, feitos para PC e reunidos em uma única experiência. Tanto para fãs de longa data como para os que conhecerão o Spartan 117 agora, a Master Chief Collection é a experiência de jogo definitiva da série Halo.', 'https://cdn.cloudflare.steamstatic.com/steam/apps/976730/header.jpg?t=1649955774', 75.0),
@@ -32,6 +36,7 @@ jogos =
     criaEntradaJogos('Ready or Not', 'Ready or Not é um jogo de tiro em primeira pessoa, intenso, tático e atual. Nele, as unidades policiais da SWAT são chamadas para controlar situações de hostilidade e de confronto.', 'https://cdn.cloudflare.steamstatic.com/steam/apps/1144200/header.jpg?t=1655539544', 50.0),
 ]
 
+// Envia todos os jogos da loja
 app.get('/GetJogos', async (req, res) =>
 {
     console.log('Get - /GetJogos');
@@ -54,20 +59,21 @@ app.get('/GetJogos', async (req, res) =>
     }
 });
 
+// Recebe um pedido de compra e retorna a confirmação
 app.post('/RealizarCompra', async (req, res) =>
 {
     console.log('Post - /RealizarCompra', req.body);
-   // try
-    //{
+    try
+    {
         res.json
         ({
             Status: 'OK',
             Descricao: 'Compra realizada',
             Requisicao: req.body
         })
-    //}
+    }
 
-    /*catch(error)
+    catch(error)
     {
         res.json
         ({
@@ -76,10 +82,10 @@ app.post('/RealizarCompra', async (req, res) =>
             Requisicao: req.body,
             Erro: error
         });
-    }*/
+    }
 });
 
-
+// Inicializa o servidor na porta especificada
 port_listen = 8000;
 app.listen(port_listen, () =>
 {
