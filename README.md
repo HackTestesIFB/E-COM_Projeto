@@ -8,6 +8,9 @@
     * NodeJS
     * Express
     * Cors
+    * Mongoose
+    * bcryptjs
+    * Validator
 * Instalação:
     * `cd ./Servidor && npm install`
 
