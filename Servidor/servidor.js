@@ -16,7 +16,7 @@ app.use(express.json());
 // conexão com o banco de dados
 const dbURI = "mongodb://localhost:27017/ecom";
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => { console.log('Conexão estabelecida com o banco de dados.\n'); app.listen(3000)})
+  .then((result) => { console.log('Conexão estabelecida com o banco de dados.\n'); })
   .catch((err) => console.log(err));
 
 // Cria um objeto JS a partir dos parâmetros
