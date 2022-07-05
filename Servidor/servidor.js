@@ -14,9 +14,9 @@ app.use(cors());
 app.use(express.json());
 
 // conexão com o banco de dados
-const dbURI = "mongodb://localhost/ecom";
+const dbURI = "mongodb://localhost:27017/ecom";
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then((result) => { console.log('Conexão estabelecida com o banco de dados.'); app.listen(3000)})
+  .then((result) => { console.log('Conexão estabelecida com o banco de dados.\n'); app.listen(3000)})
   .catch((err) => console.log(err));
 
 // Cria um objeto JS a partir dos parâmetros
@@ -96,10 +96,9 @@ app.post('/realizarCompra', async (req, res) =>
 // Cadastro e Login
 app.post('/cadastroUsuario', async (req, res) => {
     const { email, senha } = req.body;
-    console.log(`Usuário a ser cadastrado: ${email}; ${senha}`);
     try {
-        console.log('Cadastro realizado com sucesso.');
         const usuario = await Usuario.create({ email, senha });
+        console.log(`Cadastro realizado com sucesso.: ${email}; ${senha}`);
         res.status(201).json(usuario._id);
     } catch(err) {
         console.log(err);

@@ -24,3 +24,10 @@
     * Http lib
 * Instalação:
     * `cd ./app_flutter && flutter packages get`
+
+## MOngoDB
+
+* Ambiente: contêiner Linux
+* Como executar: `podman run -ti --rm --name mongo --image-volume 'tmpfs' -p 27017:27017 --hostname ecom mongo`
+* Requisitos:
+    * Podman **OU** Docker

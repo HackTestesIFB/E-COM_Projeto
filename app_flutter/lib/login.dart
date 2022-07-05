@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'store.dart';
 import 'cadastro.dart';
+import 'request.dart';
 
 class LoginPage extends StatefulWidget
 {
@@ -15,7 +16,7 @@ class LoginPage extends StatefulWidget
 
 class LoginPageState extends State<LoginPage>
 {
-    final TextEditingController _telefone = TextEditingController();
+    final TextEditingController _email = TextEditingController();
     final TextEditingController _senha = TextEditingController();
 
     @override
@@ -33,11 +34,11 @@ class LoginPageState extends State<LoginPage>
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: TextField
                         (
-                            controller: _telefone,
+                            controller: _email,
                             decoration: const InputDecoration
                             (
                                 border: OutlineInputBorder(),
-                                labelText: 'Telefone',
+                                labelText: 'Email',
                             ),
                         ),
                     ),
@@ -67,13 +68,15 @@ class LoginPageState extends State<LoginPage>
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                                 child: ElevatedButton
                                 (
-                                    onPressed: ()
+                                    onPressed: () async
                                     {
+                                        dynamic response = await loginUsusario(_email.text, _senha.text);
+
                                         setState(()
                                         {
-                                            print('${_telefone.text}, ${_senha.text}');
+                                            print('${_email.text}, ${_senha.text}, ${response.statusCode}, ${response.body}');
 
-                                            if(_telefone.text == '1234' && _senha.text == 'senha')
+                                            if(response.statusCode == 200)
                                             {
                                                 Navigator.pushNamed(context, HomePage.rota);
                                             }
@@ -108,7 +111,7 @@ class LoginPageState extends State<LoginPage>
                                     {
                                         setState(()
                                         {
-                                            print('${_telefone.text}, ${_senha.text}');
+                                            print('${_email.text}, ${_senha.text}');
                                             Navigator.pushNamed(context, RegisterPage.rota);
                                         });
                                     },
@@ -128,7 +131,7 @@ class LoginPageState extends State<LoginPage>
     void dispose()
     {
         super.dispose();
-        _telefone.dispose();
+        _email.dispose();
         _senha.dispose();
     }
 

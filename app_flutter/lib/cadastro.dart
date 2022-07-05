@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'store.dart';
+import 'request.dart';
 
 class RegisterPage extends StatefulWidget
 {
@@ -14,9 +15,9 @@ class RegisterPage extends StatefulWidget
 
 class RegisterPagePageState extends State<RegisterPage>
 {
-    final TextEditingController _nome_completo = TextEditingController();
+    //final TextEditingController _nome_completo = TextEditingController();
     final TextEditingController _email = TextEditingController();
-    final TextEditingController _telefone = TextEditingController();
+    //final TextEditingController _telefone = TextEditingController();
     final TextEditingController _senha = TextEditingController();
 
     @override
@@ -29,7 +30,7 @@ class RegisterPagePageState extends State<RegisterPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>
                 [
-                    Padding
+                    /*Padding
                     (
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: TextField
@@ -41,7 +42,7 @@ class RegisterPagePageState extends State<RegisterPage>
                                 labelText: 'Nome completo',
                             ),
                         ),
-                    ),
+                    ),*/
 
                     Padding
                     (
@@ -57,7 +58,7 @@ class RegisterPagePageState extends State<RegisterPage>
                         ),
                     ),
 
-                    Padding
+                    /*Padding
                     (
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: TextField
@@ -69,7 +70,7 @@ class RegisterPagePageState extends State<RegisterPage>
                                 labelText: 'Telefone',
                             ),
                         ),
-                    ),
+                    ),*/
 
                     Padding
                     (
@@ -96,14 +97,16 @@ class RegisterPagePageState extends State<RegisterPage>
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                                 child: ElevatedButton
                                 (
-                                    onPressed: ()
+                                    onPressed: () async
                                     {
+                                        dynamic response = await cadastrarUsusario(_email.text, _senha.text);
+
                                         setState(()
                                         {
-                                            print('${_telefone.text}, ${_senha.text}');
+                                            print('${_email.text}, ${_senha.text}, ${response.statusCode}, ${response.body}');  
 
                                             // Cadastro feito com sucesso
-                                            if(false)
+                                            if(response.statusCode == 201)
                                             {
                                                 Navigator.pop(context);
                                             }
@@ -141,7 +144,7 @@ class RegisterPagePageState extends State<RegisterPage>
     void dispose()
     {
         super.dispose();
-        _telefone.dispose();
+        _email.dispose();
         _senha.dispose();
     }
 
