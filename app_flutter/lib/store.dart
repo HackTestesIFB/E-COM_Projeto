@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'request.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class HomePage extends StatefulWidget
 {
@@ -33,42 +35,69 @@ class HomePageState extends State<HomePage>
     {
         return Material
         (
-            child: ListView.builder
+            child: Column
             (
-                itemCount : jogos.length,
-                itemBuilder: (context, index)
-                {
-                    return ListTile
+                children:
+                [
+                    Expanded
                     (
-                        title: Text
+                        child: ListView.builder
                         (
-                            jogos[index]['Nome'],
-                            style: const TextStyle
-                            (
-                                fontSize: 20,
-                                color: Colors.black
-                            )
-                        ),
-
-                        // Mostra apenas parte da descrição
-                        subtitle: Text(jogos[index]['Descricao'].toString().substring(0, 40)+'...'),
-
-                        trailing: FloatingActionButton
-                        (
-                            child: Icon(Icons.add_shopping_cart),
-                            onPressed: ()
+                            itemCount : jogos.length,
+                            itemBuilder: (context, index)
                             {
-                                // Comprar jogos utiliza o nome do jogo
-                                comprarJogos(jogos[index]['Nome']).then((response)
-                                {
-                                    dynamic resultado = response.body;
-                                    print('Resultado = ${resultado}');
-                                });
-                            }
-                        )
-                    );
-                },
-            )
+                                return ListTile
+                                (
+                                    title: Text
+                                    (
+                                        jogos[index]['Nome'],
+                                        style: const TextStyle
+                                        (
+                                            fontSize: 20,
+                                            color: Colors.black
+                                        )
+                                    ),
+
+                                    // Mostra apenas parte da descrição
+                                    subtitle: Text(jogos[index]['Descricao'].toString().substring(0, 40)+'...'),
+
+                                    trailing: FloatingActionButton
+                                    (
+                                        child: Icon(Icons.add_shopping_cart),
+                                        onPressed: ()
+                                        {
+                                            // Comprar jogos utiliza o nome do jogo
+                                            comprarJogos(jogos[index]['Nome']).then((response)
+                                            {
+                                                dynamic resultado = response.body;
+                                                print('Resultado = ${resultado}');
+                                            });
+                                        }
+                                    )
+                                );
+                            },
+                        ),
+                    ),
+
+                    Padding
+                    (
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                        child: ElevatedButton
+                        (
+                            onPressed: () async
+                            {
+                                final prefs = await SharedPreferences.getInstance();
+
+                                await prefs.remove('email');
+                                await prefs.remove('senha');
+
+                                Navigator.pop(context);
+                            },
+                            child: const Text('Logout', style: TextStyle(fontSize: 20)),
+                        ),
+                    ),
+                ],
+            ),
         );
     }
 }

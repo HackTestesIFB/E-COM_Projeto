@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'store.dart';
 import 'request.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class RegisterPage extends StatefulWidget
 {
@@ -100,33 +102,35 @@ class RegisterPagePageState extends State<RegisterPage>
                                     onPressed: () async
                                     {
                                         dynamic response = await cadastrarUsusario(_email.text, _senha.text);
+  
+                                        print('${_email.text}, ${_senha.text}, ${response.statusCode}, ${response.body}');
 
-                                        setState(()
+                                        // Cadastro feito com sucesso
+                                        if(response.statusCode == 201)
                                         {
-                                            print('${_email.text}, ${_senha.text}, ${response.statusCode}, ${response.body}');  
+                                            final prefs = await SharedPreferences.getInstance();
 
-                                            // Cadastro feito com sucesso
-                                            if(response.statusCode == 201)
-                                            {
-                                                Navigator.pop(context);
-                                            }
+                                            await prefs.setString('email', _email.text);
+                                            await prefs.setString('senha', _senha.text);
 
-                                            else
-                                            {
-                                                showDialog
-                                                (
-                                                    context: context,
-                                                    builder: (BuildContext context)
-                                                    {
-                                                        return AlertDialog
-                                                        (
-                                                            title: Text('Usuário já existe'),
-                                                            content: Text('Tente novamente um número de telefone diferente por favor'),
-                                                        );
-                                                    }
-                                                );
-                                            }
-                                        });
+                                            Navigator.pop(context);
+                                        }
+
+                                        else
+                                        {
+                                            showDialog
+                                            (
+                                                context: context,
+                                                builder: (BuildContext context)
+                                                {
+                                                    return AlertDialog
+                                                    (
+                                                        title: Text('Erro'),
+                                                        content: Text('Tente novamente um email válido por favor'),
+                                                    );
+                                                }
+                                            );
+                                        }
                                     },
                                     child: const Text('Cadastrar agora', style: TextStyle(fontSize: 20)),
                                 ),
