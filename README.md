@@ -25,7 +25,7 @@
 * Instalação:
     * `cd ./app_flutter && flutter packages get`
 
-## MOngoDB
+## MongoDB
 
 * Ambiente: contêiner Linux
 * Como executar: `podman run -ti --rm --name mongo --image-volume 'tmpfs' -p 27017:27017 --hostname ecom mongo:latests`

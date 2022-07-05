@@ -108,11 +108,6 @@ class RegisterPagePageState extends State<RegisterPage>
                                         // Cadastro feito com sucesso
                                         if(response.statusCode == 201)
                                         {
-                                            final prefs = await SharedPreferences.getInstance();
-
-                                            await prefs.setString('email', _email.text);
-                                            await prefs.setString('senha', _senha.text);
-
                                             Navigator.pop(context);
                                         }
 

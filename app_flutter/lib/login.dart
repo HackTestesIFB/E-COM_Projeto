@@ -35,29 +35,6 @@ class LoginPageState extends State<LoginPage>
     final TextEditingController _senha = TextEditingController();
 
     @override
-    void initState()
-    {
-        super.initState();
-        final prefs = SharedPreferences.getInstance().then((prefs)
-        {
-            setState(()
-            {
-                final String? email_salvo = prefs.getString('email');
-                final String? senha_salva = prefs.getString('senha');
-
-                if(email_salvo != null || senha_salva != null)
-                {
-                    _email.text = email_salvo!;
-                    _senha.text = senha_salva!;
-                }
-
-                print('${email_salvo}, ${senha_salva}');
-            });
-        });
-
-    }
-
-    @override
     Widget build(BuildContext context)
     {
         return Material
@@ -114,6 +91,10 @@ class LoginPageState extends State<LoginPage>
 
                                         if(response.statusCode == 200)
                                         {
+                                            final prefs = await SharedPreferences.getInstance();
+                                            await prefs.setString('email', _email.text);
+                                            await prefs.setString('senha', _senha.text);
+
                                             Navigator.pushNamed(context, HomePage.rota);
                                         }
 
@@ -134,6 +115,27 @@ class LoginPageState extends State<LoginPage>
                                         }
                                     },
                                     child: const Text('Login', style: TextStyle(fontSize: 20)),
+                                ),
+                            ),
+
+                            Padding
+                            (
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                                child: ElevatedButton
+                                (
+                                    onPressed: () async
+                                    {
+                                        final prefs = await SharedPreferences.getInstance();
+                                        final String? email_salvo = prefs.getString('email');
+                                        final String? senha_salva = prefs.getString('senha');
+
+                                        if(email_salvo != null || senha_salva != null)
+                                        {
+                                            _email.text = email_salvo!;
+                                            _senha.text = senha_salva!;
+                                        }
+                                    },
+                                    child: const Text('Auto-preencher', style: TextStyle(fontSize: 20)),
                                 ),
                             ),
 

@@ -63,6 +63,7 @@ class HomePageState extends State<HomePage>
 
                                     trailing: FloatingActionButton
                                     (
+                                        heroTag: null,
                                         child: Icon(Icons.add_shopping_cart),
                                         onPressed: ()
                                         {
