@@ -28,7 +28,7 @@
 ## MongoDB
 
 * Ambiente: contêiner Linux
-* Como executar: `podman run -ti --rm --name mongo --image-volume 'tmpfs' -p 27017:27017 --hostname ecom mongo:latests`
+* Como executar: `podman run -ti --rm --name mongo --image-volume 'tmpfs' -p 27017:27017 --hostname ecom mongo:latest`
 * Requisitos:
     * Podman **OU** Docker
 * Instalação:

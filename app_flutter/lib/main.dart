@@ -4,10 +4,15 @@ import 'package:http/http.dart' as http;
 import 'login.dart';
 import 'store.dart';
 import 'cadastro.dart';
+import 'request.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 // Inicializa o app
-void main() => runApp(const MeuApp());
+Future<void> main() async
+{
+    runApp(const MeuApp());
+}
 
 // App principal
 class MeuApp extends StatelessWidget
@@ -24,7 +29,7 @@ class MeuApp extends StatelessWidget
             routes:
             {
                 LoginPage.rota : (context) => LoginPage(),
-                HomePage.rota: (context) => HomePage(),
+                StorePage.rota: (context) => StorePage(),
                 RegisterPage.rota: (context) => RegisterPage(),
             }
         );

@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'request.dart';
 import 'dart:convert';
+import 'login.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class HomePage extends StatefulWidget
+class StorePage extends StatefulWidget
 {
-    const HomePage({Key? key}) : super(key: key); // Necessário para utilizar o const
+    const StorePage({Key? key}) : super(key: key); // Necessário para utilizar o const
     static const rota = '/store';
 
     @override
-    State<HomePage> createState() => HomePageState();
+    State<StorePage> createState() => StorePageState();
 }
 
-class HomePageState extends State<HomePage>
+class StorePageState extends State<StorePage>
 {
     var jogos=[];
 
-    HomePageState()
+    void initState()
     {
         // Recebe todos os jogos a passa a array contendo todos eles no JSON
         listarJogos().then((response)
@@ -33,9 +34,29 @@ class HomePageState extends State<HomePage>
     @override
     Widget build(BuildContext context)
     {
-        return Material
+        return Scaffold
         (
-            child: Column
+            appBar: AppBar
+            (
+                title: const Text('Loja de jogos'),
+            ),
+
+            floatingActionButton: FloatingActionButton
+            (
+                heroTag: null,
+                onPressed: () async
+                {
+                    final prefs = await SharedPreferences.getInstance();
+
+                    await prefs.remove('email');
+                    await prefs.remove('senha');
+
+                    Navigator.pushReplacementNamed(context, LoginPage.rota);
+                },
+                child: Icon(Icons.logout_rounded),
+            ),
+
+            body: Column
             (
                 children:
                 [
@@ -77,24 +98,6 @@ class HomePageState extends State<HomePage>
                                     )
                                 );
                             },
-                        ),
-                    ),
-
-                    Padding
-                    (
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                        child: ElevatedButton
-                        (
-                            onPressed: () async
-                            {
-                                final prefs = await SharedPreferences.getInstance();
-
-                                await prefs.remove('email');
-                                await prefs.remove('senha');
-
-                                Navigator.pop(context);
-                            },
-                            child: const Text('Logout', style: TextStyle(fontSize: 20)),
                         ),
                     ),
                 ],

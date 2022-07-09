@@ -25,9 +25,10 @@ class RegisterPagePageState extends State<RegisterPage>
     @override
     Widget build(BuildContext context)
     {
-        return Material
+        return Scaffold
         (
-            child: Column
+            appBar: AppBar(title: const Text('Cadastro')),
+            body: Column
             (
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>
