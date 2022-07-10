@@ -3,70 +3,26 @@ import 'request.dart';
 import 'dart:convert';
 import 'login.dart';
 import 'game.dart';
-import 'shopping_cart.dart';
 import 'functions_shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class StorePage extends StatefulWidget
+class ShoppingCartPage extends StatelessWidget
 {
-    const StorePage({Key? key}) : super(key: key); // Necessário para utilizar o const
-    static const rota = '/store';
+    static const rota = '/shopping_cart';
 
-    @override
-    State<StorePage> createState() => StorePageState();
-}
-
-class StorePageState extends State<StorePage>
-{
-    var jogos=[];
-
-    void initState()
-    {
-        // Recebe todos os jogos a passa a array contendo todos eles no JSON
-        listarJogos().then((response)
-        {
-            setState(()
-            {
-                jogos = json.decode(response.body)['Jogos']; // Lista de hash maps
-            });
-        });
-    }
-  
     @override
     Widget build(BuildContext context)
     {
+        var carrinho = json.decode(json.encode(ModalRoute.of(context)?.settings.arguments))['Carrinho'];
+        int total = 1000;
+
         return Scaffold
         (
             appBar: AppBar
             (
-                title: const Text('Loja de jogos'),
-
-                actions:
-                [
-                    Padding
-                    (
-                        padding: EdgeInsets.only(right: 30.0),
-                        child: GestureDetector
-                        (
-                            onTap:() async
-                            {
-                                listarJogos().then((resposta)
-                                {
-                                    var jogos_carrinho = json.decode(resposta.body)['Jogos'];
-                                    Navigator.pushNamed(context, ShoppingCartPage.rota, arguments :{'Carrinho': jogos_carrinho});
-                                });
-                                
-                            },
-                            child: Icon
-                            (
-                                Icons.shopping_cart,
-                                size: 26.0,
-                            ),
-                        )
-                    ),
-                ]
+                title: const Text('Carrinho'),
             ),
 
             floatingActionButton: FloatingActionButton
@@ -85,18 +41,41 @@ class StorePageState extends State<StorePage>
             (
                 children:
                 [
+                    Padding
+                    (
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                        child: ElevatedButton
+                        (
+                            onPressed: ()
+                            {
+                                
+                            },
+                            child: const Text('Aceitar todas as compras', style: TextStyle(fontSize: 20)),
+                            style: ElevatedButton.styleFrom
+                            (
+                                primary: Colors.green,
+                            ),
+                        ),
+                    ),
+
+                    Padding
+                    (
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                        child: Text('Total: R\$${total}', style: TextStyle(fontSize: 25)),
+                    ),
+
                     Expanded
                     (
                         child: ListView.builder
                         (
-                            itemCount : jogos.length,
+                            itemCount : carrinho.length,
                             itemBuilder: (context, index)
                             {
                                 return ListTile
                                 (
                                     title: Text
                                     (
-                                        jogos[index]['Nome'],
+                                        'R\$${carrinho[index]['Valor']} - ' + carrinho[index]['Nome'],
                                         style: const TextStyle
                                         (
                                             fontSize: 20,
@@ -105,20 +84,20 @@ class StorePageState extends State<StorePage>
                                     ),
 
                                     // Mostra apenas parte da descrição
-                                    subtitle: Text(jogos[index]['Descricao'].toString().substring(0, 40)+'...'),
+                                    subtitle: Text(carrinho[index]['Descricao'].toString().substring(0, 40)+'...'),
 
                                     trailing: FloatingActionButton
                                     (
                                         heroTag: null,
-                                        child: Icon(Icons.add_shopping_cart),
+                                        child: Icon(Icons.remove_shopping_cart),
                                         onPressed: ()
                                         {
                                             // Comprar jogos utiliza o nome do jogo
-                                            comprarJogos(jogos[index]['Nome']).then((response)
+                                            comprarJogos(carrinho[index]['Nome']).then((response)
                                             {
                                                 dynamic resultado = response.body;
                                                 print('Resultado = ${resultado}');
-                                                Navigator.pushNamed(context, GamePage.rota, arguments: {'Jogo': jogos[index]});
+                                                Navigator.pushNamed(context, GamePage.rota, arguments: {'Jogo': carrinho[index]});
                                             });
                                         }
                                     )

@@ -24,3 +24,8 @@ Future loginUsusario(String email, String senha) async
 {
     return await http.post(Uri.http('localhost:8000', '/loginUsuario'), headers: {"Content-Type": "application/json"}, body: json.encode({'email': '$email', 'senha': '$email'}));
 }
+
+Future adicionaAoCarrinho() async
+{
+    return 0;
+}

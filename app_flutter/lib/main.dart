@@ -5,6 +5,8 @@ import 'login.dart';
 import 'store.dart';
 import 'cadastro.dart';
 import 'request.dart';
+import 'game.dart';
+import 'shopping_cart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -31,6 +33,8 @@ class MeuApp extends StatelessWidget
                 LoginPage.rota : (context) => LoginPage(),
                 StorePage.rota: (context) => StorePage(),
                 RegisterPage.rota: (context) => RegisterPage(),
+                GamePage.rota: (context) => GamePage(),
+                ShoppingCartPage.rota: (context) => ShoppingCartPage(),
             }
         );
     }

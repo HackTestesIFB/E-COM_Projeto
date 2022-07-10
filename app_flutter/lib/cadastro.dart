@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'store.dart';
 import 'request.dart';
+import 'game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -11,11 +12,11 @@ class RegisterPage extends StatefulWidget
     @override
     createState()
     {
-        return RegisterPagePageState();
+        return RegisterPageState();
     }
 }
 
-class RegisterPagePageState extends State<RegisterPage>
+class RegisterPageState extends State<RegisterPage>
 {
     //final TextEditingController _nome_completo = TextEditingController();
     final TextEditingController _email = TextEditingController();
