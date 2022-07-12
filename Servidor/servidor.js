@@ -1,16 +1,16 @@
 #!/usr/bin/node --unhandled-rejections=strict
 
 // Bibliotecas necessárias
-const cors = require('cors');
 const express = require('express');
 const fs = require('fs');
 const util = require('util');
 const mongoose = require('mongoose');
 const Usuario = require('./models/Usuario');
+const Carrinho = require('./models/Carrinho');
+const Compra = require('./models/Compra');
 
 // Configura o ExpressJS
 const app = express();
-app.use(cors());
 app.use(express.json());
 
 // conexão com o banco de dados
@@ -67,32 +67,6 @@ app.get('/getJogos', async (req, res) =>
     }
 });
 
-// Recebe um pedido de compra e retorna a confirmação
-app.post('/realizarCompra', async (req, res) =>
-{
-    console.log('Post - /realizarCompra', req.body);
-    try
-    {
-        res.json
-        ({
-            Status: 'OK',
-            Descricao: 'Compra realizada',
-            Requisicao: req.body
-        })
-    }
-
-    catch(error)
-    {
-        res.json
-        ({
-            Status: 'ERROR',
-            Descricao: 'Compra falhou',
-            Requisicao: req.body,
-            Erro: error
-        });
-    }
-});
-
 // Cadastro e Login
 app.post('/cadastroUsuario', async (req, res) => {
     const { email, senha } = req.body;
@@ -114,6 +88,76 @@ app.post('/loginUsuario', async (req, res) => {
   } catch(err) {
     res.status(400).json({err});
   }
+});
+
+// Carrinho
+app.post('/postCarrinho', async (req, res) => {
+    const { idUsuario, idProduto, quantidade } = req.body;
+    try {
+        const usuario = await Carrinho.create({ idUsuario, idProduto, quantidade });
+        res.status(201).json({msg: 'Adicionado ao carrinho com sucesso.'});
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({err});
+    }
+});
+
+app.get('/getCarrinho', async (req, res) => {
+    const { idUsuario } = req.body;
+    try {
+        const busca = await Carrinho.find();
+        res.status(201).json(busca);
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({err});
+    }
+});
+
+// Compra
+app.post('/postCompra', async (req, res) => {
+    const { idUsuario } = req.body;
+    try {
+        let busca = await Carrinho.find({ _id: idUsuario }, { _id: 0 });
+        busca = JSON.stringify(busca);
+        const compra = await Compra.create({ idUsuario, busca});
+        res.status(201).json({msg: 'Compra realizada com sucesso.'});
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({err});
+    }
+});
+
+app.get('/getCompra', async (req, res) => {
+    const { idUsuario } = req.body;
+    try {
+        const busca = await Compra.find({ _id: idUsuario });
+        res.status(201).json(busca);
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({err});
+    }
+});
+
+// Outros gets úteis
+app.get('/getProduto', async (req, res) => {
+    const { indiceProduto } = req.body;
+    try {
+        res.status(201).json({ produto: jogos[indiceProduto] });
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({err});
+    }
+});
+
+app.get('/getUsuario', async (req, res) => {
+    const { idUsuario } = req.body;
+    try {
+        const busca = await Usuario.find({ _id: idUsuario });
+        res.status(201).json(busca);
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({err});
+    }
 });
 
 // Inicializa o servidor na porta especificada
