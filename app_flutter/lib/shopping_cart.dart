@@ -52,7 +52,7 @@ class ShoppingCartPage extends StatelessWidget
 
                                 dynamic resgatar_compras = await verCompras();
 
-                                print('resposta_compras-> Body: {${resposta_compras.body}},\nStatus code: ${resposta_compras.statusCode} \n\nresgatar_compras-> Body: {${resgatar_compras.body}},\n,\nStatus code: ${resgatar_compras.statusCode}');
+                                print('resposta_compras-> Body: {${resposta_compras.body}}, Status code: ${resposta_compras.statusCode} \n\nresgatar_compras-> Body: {${resgatar_compras.body}}, Status code: ${resgatar_compras.statusCode}');
                             },
 
                             child: const Text('Aceitar todas as compras', style: TextStyle(fontSize: 20)),
