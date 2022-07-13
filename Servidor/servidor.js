@@ -97,7 +97,8 @@ app.post('/postCarrinho', async (req, res) => {
     console.log('Post - /postCarrinho');
     const { idUsuario, idProduto, quantidade } = req.body;
     try {
-        const usuario = await Carrinho.create({ idUsuario, idProduto, quantidade });
+        let precoProduto = jogos[idProduto].Valor;
+        const usuario = await Carrinho.create({ idUsuario, idProduto, precoProduto, quantidade });
         res.status(201).json({msg: 'Adicionado ao carrinho com sucesso.'});
     } catch(err) {
         console.log(err);
@@ -109,8 +110,20 @@ app.post('/getCarrinho', async (req, res) => {
     console.log('Post - /getCarrinho');
     const { idUsuario } = req.body;
     try {
-        const busca = await Carrinho.find();
+        const busca = await Carrinho.find({ idUsuario: idUsuario });
         res.status(201).json(busca);
+    } catch(err) {
+        console.log(err);
+        res.status(400).json({err});
+    }
+});
+
+app.post('/deleteItemCarrinho', async (req, res) => {
+    console.log('Post - /deleteItemCarrinho');
+    const { idProduto } = req.body;
+    try {
+        const res = await Carrinho.deleteOne({ idProduto: idProduto });
+        res.status(201).json({itemDeletado: res});
     } catch(err) {
         console.log(err);
         res.status(400).json({err});
@@ -122,9 +135,10 @@ app.post('/postCompra', async (req, res) => {
     console.log('Post - /postCompra');
     const { idUsuario } = req.body;
     try {
-        let busca = await Carrinho.find({ _id: idUsuario }, { _id: 0 });
+        let busca = await Carrinho.find({ idUsuario: idUsuario }, { _id: 0 });
         busca = JSON.stringify(busca);
         const compra = await Compra.create({ idUsuario, busca});
+        busca = await Carrinho.deleteMany({ idUsuario: idUsuario })
         res.status(201).json({msg: 'Compra realizada com sucesso.'});
     } catch(err) {
         console.log(err);
