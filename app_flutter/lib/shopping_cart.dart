@@ -101,7 +101,7 @@ class ShoppingCartPage extends StatelessWidget
                                             // Comprar jogos utiliza o nome do jogo
                                             retirarItemCarrinho(carrinho[index]['idProduto']).then((response)
                                             {
-                                                dynamic resultado = response.body;
+                                                dynamic resultado = response;
                                                 print('Resultado = ${resultado.body}');
                                             });
                                         }
