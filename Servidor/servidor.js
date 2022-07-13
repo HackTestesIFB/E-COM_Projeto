@@ -151,10 +151,15 @@ app.post('/deleteItemCarrinho', async (req, res) => {
 app.post('/postCompra', async (req, res) => {
     console.log('Post - /postCompra');
     const { idUsuario } = req.body;
+
+    let data = new Date();
+
+    let dataCompra = `${data.getDate()}/${data.getMonth()}/${data.getFullYear()}`;
+
     try {
         let busca = await Carrinho.find({ idUsuario: idUsuario }, { _id: 0 });
         busca = JSON.stringify(busca);
-        const compra = await Compra.create({ idUsuario, busca});
+        const compra = await Compra.create({ idUsuario, data: dataCompra, infoItens: busca});
         busca = await Carrinho.deleteMany({ idUsuario: idUsuario })
         res.status(201).json({msg: 'Compra realizada com sucesso.'});
     } catch(err) {
