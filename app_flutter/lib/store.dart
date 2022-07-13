@@ -52,6 +52,10 @@ class StorePageState extends State<StorePage>
                         (
                             onTap:() async
                             {
+                                dynamic carrinho = await listasCarrinho();
+
+                                print('Carrinho: ${carrinho.body}');
+
                                 listarJogos().then((resposta)
                                 {
                                     var jogos_carrinho = json.decode(resposta.body)['Jogos'];
@@ -113,13 +117,15 @@ class StorePageState extends State<StorePage>
                                         child: Icon(Icons.add_shopping_cart),
                                         onPressed: ()
                                         {
-                                            // Comprar jogos utiliza o nome do jogo
+                                            /*// Comprar jogos utiliza o nome do jogo
                                             comprarJogos(jogos[index]['Nome']).then((response)
                                             {
                                                 dynamic resultado = response.body;
                                                 print('Resultado = ${resultado}');
-                                                Navigator.pushNamed(context, GamePage.rota, arguments: {'Jogo': jogos[index]});
                                             });
+                                            */
+
+                                            Navigator.pushNamed(context, GamePage.rota, arguments: {'Jogo': jogos[index]});
                                         }
                                     )
                                 );

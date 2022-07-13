@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Faz uma requisição ao servidor para retornar todos os jogos na loja
 Future listarJogos() async
@@ -25,7 +26,35 @@ Future loginUsusario(String email, String senha) async
     return await http.post(Uri.http('localhost:8000', '/loginUsuario'), headers: {"Content-Type": "application/json"}, body: json.encode({'email': '$email', 'senha': '$email'}));
 }
 
-Future adicionaAoCarrinho() async
+Future adicionaAoCarrinho(String nome_jogo, int quantidade) async
 {
-    return 0;
+    final prefs = await SharedPreferences.getInstance();
+    String? id_usuario = prefs.getString('id_usuario');
+
+    return await http.post(Uri.http('localhost:8000', '/postCarrinho'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario', 'idProduto': '$nome_jogo', 'quantidade': '$quantidade'}));
+}
+
+//
+Future listasCarrinho() async
+{
+    final prefs = await SharedPreferences.getInstance();
+    String? id_usuario = prefs.getString('id_usuario');
+
+    return await http.post(Uri.http('localhost:8000', '/getCarrinho'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario'}));
+}
+
+Future aceitarComprasCarrinho() async
+{
+    final prefs = await SharedPreferences.getInstance();
+    String? id_usuario = prefs.getString('id_usuario');
+
+    return await http.post(Uri.http('localhost:8000', '/postCompra'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario'}));
+}
+
+Future verCompras() async
+{
+    final prefs = await SharedPreferences.getInstance();
+    String? id_usuario = prefs.getString('id_usuario');
+
+    return await http.post(Uri.http('localhost:8000', '/getCompra'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario'}));
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'store.dart';
 import 'cadastro.dart';
 import 'request.dart';
@@ -34,6 +35,8 @@ class LoginPageState extends State<LoginPage>
 
                 if(response.statusCode == 200)
                 {
+                    // Evita problemas com o id
+                    await prefs.setString('id_usuario', json.decode(response.body)['usuario']['_id']);
                     print('Usuário logado: ${response.statusCode}, ${response.body}');
                     Navigator.pushReplacementNamed(context, StorePage.rota);
                 }
@@ -103,9 +106,12 @@ class LoginPageState extends State<LoginPage>
 
                                         if(response.statusCode == 200)
                                         {
+                                            var resposta = json.decode(response.body)['usuario'];
+
                                             final prefs = await SharedPreferences.getInstance();
                                             await prefs.setString('email', _email.text);
                                             await prefs.setString('senha', _senha.text);
+                                            await prefs.setString('id_usuario', resposta['_id']);
 
                                             Navigator.pushReplacementNamed(context, StorePage.rota);
                                         }

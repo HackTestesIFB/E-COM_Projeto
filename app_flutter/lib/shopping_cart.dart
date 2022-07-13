@@ -25,7 +25,7 @@ class ShoppingCartPage extends StatelessWidget
                 title: const Text('Carrinho'),
             ),
 
-            floatingActionButton: FloatingActionButton
+            /*floatingActionButton: FloatingActionButton
             (
                 heroTag: null,
                 onPressed: () async
@@ -35,7 +35,7 @@ class ShoppingCartPage extends StatelessWidget
                     Navigator.pushNamedAndRemoveUntil(context, LoginPage.rota, (route) => false);
                 },
                 child: Icon(Icons.logout_rounded),
-            ),
+            ),*/
 
             body: Column
             (
@@ -46,10 +46,15 @@ class ShoppingCartPage extends StatelessWidget
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                         child: ElevatedButton
                         (
-                            onPressed: ()
+                            onPressed: () async
                             {
-                                
+                                dynamic resposta_compras = await aceitarComprasCarrinho();
+
+                                dynamic resgatar_compras = await verCompras();
+
+                                print('resposta_compras-> Body: {${resposta_compras.body}},\nStatus code: ${resposta_compras.statusCode} \n\nresgatar_compras-> Body: {${resgatar_compras.body}},\n,\nStatus code: ${resgatar_compras.statusCode}');
                             },
+
                             child: const Text('Aceitar todas as compras', style: TextStyle(fontSize: 20)),
                             style: ElevatedButton.styleFrom
                             (
@@ -73,18 +78,19 @@ class ShoppingCartPage extends StatelessWidget
                             {
                                 return ListTile
                                 (
-                                    title: Text
+                                    title: Padding
                                     (
-                                        'R\$${carrinho[index]['Valor']} - ' + carrinho[index]['Nome'],
-                                        style: const TextStyle
+                                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                                        child: Text
                                         (
-                                            fontSize: 20,
-                                            color: Colors.black
-                                        )
+                                            'R\$${carrinho[index]['Valor']} - ' + carrinho[index]['Nome'],
+                                            style: const TextStyle
+                                            (
+                                                fontSize: 20,
+                                                color: Colors.black
+                                            )
+                                        ),
                                     ),
-
-                                    // Mostra apenas parte da descrição
-                                    subtitle: Text(carrinho[index]['Descricao'].toString().substring(0, 40)+'...'),
 
                                     trailing: FloatingActionButton
                                     (

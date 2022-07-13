@@ -69,6 +69,7 @@ app.get('/getJogos', async (req, res) =>
 
 // Cadastro e Login
 app.post('/cadastroUsuario', async (req, res) => {
+    console.log('Post - /cadastroUsuario');
     const { email, senha } = req.body;
     try {
         const usuario = await Usuario.create({ email, senha });
@@ -81,17 +82,19 @@ app.post('/cadastroUsuario', async (req, res) => {
 });
 
 app.post('/loginUsuario', async (req, res) => {
-  const { email, senha } = req.body;
-  try {
-    const usuario = await Usuario.login(email, senha);
-    res.status(200).json({usuario: usuario});
-  } catch(err) {
-    res.status(400).json({err});
-  }
+    console.log('Post - /loginUsuario');
+    const { email, senha } = req.body;
+    try {
+        const usuario = await Usuario.login(email, senha);
+        res.status(200).json({usuario: usuario});
+    } catch(err) {
+        res.status(400).json({err});
+    }
 });
 
 // Carrinho
 app.post('/postCarrinho', async (req, res) => {
+    console.log('Post - /postCarrinho');
     const { idUsuario, idProduto, quantidade } = req.body;
     try {
         const usuario = await Carrinho.create({ idUsuario, idProduto, quantidade });
@@ -102,7 +105,8 @@ app.post('/postCarrinho', async (req, res) => {
     }
 });
 
-app.get('/getCarrinho', async (req, res) => {
+app.post('/getCarrinho', async (req, res) => {
+    console.log('Post - /getCarrinho');
     const { idUsuario } = req.body;
     try {
         const busca = await Carrinho.find();
@@ -115,6 +119,7 @@ app.get('/getCarrinho', async (req, res) => {
 
 // Compra
 app.post('/postCompra', async (req, res) => {
+    console.log('Post - /postCompra');
     const { idUsuario } = req.body;
     try {
         let busca = await Carrinho.find({ _id: idUsuario }, { _id: 0 });
@@ -127,7 +132,8 @@ app.post('/postCompra', async (req, res) => {
     }
 });
 
-app.get('/getCompra', async (req, res) => {
+app.post('/getCompra', async (req, res) => {
+    console.log('Post - /getCompra');
     const { idUsuario } = req.body;
     try {
         const busca = await Compra.find({ _id: idUsuario });
