@@ -112,10 +112,10 @@ app.post('/loginUsuario', async (req, res) => {
 // Carrinho
 app.post('/postCarrinho', async (req, res) => {
     console.log('Post - /postCarrinho');
-    const { idUsuario, idProduto, quantidade } = req.body;
+    const { idUsuario, idProduto } = req.body;
     try {
         let precoProduto = jogos.get(idProduto)['Valor'];
-        const usuario = await Carrinho.create({ idUsuario, idProduto, precoProduto, quantidade });
+        const usuario = await Carrinho.create({ idUsuario, idProduto, precoProduto });
         res.status(201).json({msg: 'Adicionado ao carrinho com sucesso.'});
     } catch(err) {
         console.log(err);
@@ -137,9 +137,9 @@ app.post('/getCarrinho', async (req, res) => {
 
 app.post('/deleteItemCarrinho', async (req, res) => {
     console.log('Post - /deleteItemCarrinho');
-    const { idProduto } = req.body;
+    const { idUsuario, idProduto } = req.body;
     try {
-        const res = await Carrinho.deleteOne({ idProduto: idProduto });
+        const res = await Carrinho.deleteOne({ idUsuario: idUsuario }, { idProduto: idProduto });
         res.status(201).json({itemDeletado: res});
     } catch(err) {
         console.log(err);
