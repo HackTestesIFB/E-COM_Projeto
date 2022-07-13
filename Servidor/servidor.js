@@ -167,7 +167,7 @@ app.post('/getCompra', async (req, res) => {
     console.log('Post - /getCompra');
     const { idUsuario } = req.body;
     try {
-        const busca = await Compra.find({ _id: idUsuario });
+        const busca = await Compra.find({ idUsuario: idUsuario });
         res.status(201).json(busca);
     } catch(err) {
         console.log(err);
