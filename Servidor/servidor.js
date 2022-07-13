@@ -139,8 +139,8 @@ app.post('/deleteItemCarrinho', async (req, res) => {
     console.log('Post - /deleteItemCarrinho');
     const { idUsuario, idProduto } = req.body;
     try {
-        const res = await Carrinho.deleteOne({ idUsuario: idUsuario }, { idProduto: idProduto });
-        res.status(201).json({itemDeletado: res});
+        const result = await Carrinho.deleteOne({ idUsuario: idUsuario }, { idProduto: idProduto });
+        res.status(201).json({itemDeletado: result});
     } catch(err) {
         console.log(err);
         res.status(400).json({err});

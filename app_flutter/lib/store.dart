@@ -33,7 +33,7 @@ class StorePageState extends State<StorePage>
             });
         });
     }
-  
+
     @override
     Widget build(BuildContext context)
     {
@@ -52,16 +52,17 @@ class StorePageState extends State<StorePage>
                         (
                             onTap:() async
                             {
-                                dynamic carrinho = await listasCarrinho();
 
-                                listasCarrinho().then((resposta)
+                                /*listasCarrinho().then((resposta)
                                 {
                                     print('Carrinho: ${resposta.body}');
 
                                     var jogos_carrinho = json.decode(resposta.body);
                                     Navigator.pushNamed(context, ShoppingCartPage.rota, arguments :{'Carrinho': jogos_carrinho});
-                                });
-                                
+                                });*/
+
+                                Navigator.pushNamed(context, ShoppingCartPage.rota);
+
                             },
                             child: Icon
                             (
