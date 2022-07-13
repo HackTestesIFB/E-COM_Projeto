@@ -34,6 +34,14 @@ Future adicionaAoCarrinho(String nome_jogo, int quantidade) async
     return await http.post(Uri.http('localhost:8000', '/postCarrinho'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario', 'idProduto': '$nome_jogo', 'quantidade': '$quantidade'}));
 }
 
+Future retirarItemCarrinho(String nome_jogo) async
+{
+    final prefs = await SharedPreferences.getInstance();
+    String? id_usuario = prefs.getString('id_usuario');
+
+    return await http.post(Uri.http('localhost:8000', '/deleteItemCarrinho'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario', 'idProduto': '$nome_jogo'}));
+}
+
 //
 Future listasCarrinho() async
 {
