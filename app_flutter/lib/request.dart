@@ -26,12 +26,12 @@ Future loginUsusario(String email, String senha) async
     return await http.post(Uri.http('localhost:8000', '/loginUsuario'), headers: {"Content-Type": "application/json"}, body: json.encode({'email': '$email', 'senha': '$email'}));
 }
 
-Future adicionaAoCarrinho(String nome_jogo, int quantidade) async
+Future adicionaAoCarrinho(String nome_jogo) async
 {
     final prefs = await SharedPreferences.getInstance();
     String? id_usuario = prefs.getString('id_usuario');
 
-    return await http.post(Uri.http('localhost:8000', '/postCarrinho'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario', 'idProduto': '$nome_jogo', 'quantidade': '$quantidade'}));
+    return await http.post(Uri.http('localhost:8000', '/postCarrinho'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario', 'idProduto': '$nome_jogo'}));
 }
 
 Future retirarItemCarrinho(String nome_jogo) async

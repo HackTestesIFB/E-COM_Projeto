@@ -63,7 +63,7 @@ class GamePage extends StatelessWidget
                         (
                             onPressed: ()
                             {
-                                adicionaAoCarrinho(titulo, 1);
+                                adicionaAoCarrinho(titulo);
                                 Navigator.pop(context);
                             },
                             child: Text('Adicionar ao carrinho - R\$${preco}', style: TextStyle(fontSize: 20)),

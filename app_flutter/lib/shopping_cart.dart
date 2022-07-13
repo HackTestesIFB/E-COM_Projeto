@@ -83,7 +83,7 @@ class ShoppingCartPage extends StatelessWidget
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                                         child: Text
                                         (
-                                            'R\$${carrinho[index]['Valor']} - ' + carrinho[index]['Nome'],
+                                            'R\$${carrinho[index]['precoProduto']} - ' + carrinho[index]['idProduto'],
                                             style: const TextStyle
                                             (
                                                 fontSize: 20,
@@ -99,11 +99,10 @@ class ShoppingCartPage extends StatelessWidget
                                         onPressed: ()
                                         {
                                             // Comprar jogos utiliza o nome do jogo
-                                            comprarJogos(carrinho[index]['Nome']).then((response)
+                                            retirarItemCarrinho(carrinho[index]['idProduto']).then((response)
                                             {
                                                 dynamic resultado = response.body;
-                                                print('Resultado = ${resultado}');
-                                                Navigator.pushNamed(context, GamePage.rota, arguments: {'Jogo': carrinho[index]});
+                                                print('Resultado = ${resultado.body}');
                                             });
                                         }
                                     )

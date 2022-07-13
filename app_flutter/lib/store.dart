@@ -54,11 +54,11 @@ class StorePageState extends State<StorePage>
                             {
                                 dynamic carrinho = await listasCarrinho();
 
-                                print('Carrinho: ${carrinho.body}');
-
-                                listarJogos().then((resposta)
+                                listasCarrinho().then((resposta)
                                 {
-                                    var jogos_carrinho = json.decode(resposta.body)['Jogos'];
+                                    print('Carrinho: ${resposta.body}');
+
+                                    var jogos_carrinho = json.decode(resposta.body);
                                     Navigator.pushNamed(context, ShoppingCartPage.rota, arguments :{'Carrinho': jogos_carrinho});
                                 });
                                 
