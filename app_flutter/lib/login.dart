@@ -21,33 +21,6 @@ class LoginPageState extends State<LoginPage>
     final TextEditingController _email = TextEditingController();
     final TextEditingController _senha = TextEditingController();
 
-    LoginPageState()
-    {
-        // Verica se usuário está com o login salvo
-        SharedPreferences.getInstance().then((prefs) async
-        {
-            final String? email_salvo = prefs.getString('email');
-            final String? senha_salva = prefs.getString('senha');
-
-            if(email_salvo != null || senha_salva != null)
-            {
-                dynamic response = await loginUsusario(email_salvo!, senha_salva!);
-
-                if(response.statusCode == 200)
-                {
-                    // Evita problemas com o id
-                    await prefs.setString('id_usuario', json.decode(response.body)['usuario']['_id']);
-                    print('Usuário logado: ${response.statusCode}, ${response.body}');
-                    Navigator.pushReplacementNamed(context, StorePage.rota);
-                }
-            }
-            else
-            {
-                print('Usuário não possui login salvo');
-            }
-        });
-    }
-
     @override
     Widget build(BuildContext context)
     {
@@ -59,6 +32,7 @@ class LoginPageState extends State<LoginPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>
                 [
+                    // Campo de email
                     Padding
                     (
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -73,6 +47,7 @@ class LoginPageState extends State<LoginPage>
                         ),
                     ),
 
+                    // Campo de senha
                     Padding
                     (
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -93,6 +68,7 @@ class LoginPageState extends State<LoginPage>
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children:
                         [
+                            // Login
                             Padding
                             (
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -113,7 +89,7 @@ class LoginPageState extends State<LoginPage>
                                             await prefs.setString('senha', _senha.text);
                                             await prefs.setString('id_usuario', resposta['_id']);
 
-                                            Navigator.pushReplacementNamed(context, StorePage.rota);
+                                            Navigator.pushReplacementNamed(context, StorePage.rota); // Não faz sentido ter como voltar ao login, sem que seja pelo logout
                                         }
 
                                         else
@@ -136,6 +112,7 @@ class LoginPageState extends State<LoginPage>
                                 ),
                             ),
 
+                            // Cadastro
                             Padding
                             (
                                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),

@@ -45,6 +45,7 @@ class StorePageState extends State<StorePage>
 
                 actions:
                 [
+                    // Botão do carrinho
                     Padding
                     (
                         padding: EdgeInsets.only(right: 30.0),
@@ -52,15 +53,6 @@ class StorePageState extends State<StorePage>
                         (
                             onTap:() async
                             {
-
-                                /*listasCarrinho().then((resposta)
-                                {
-                                    print('Carrinho: ${resposta.body}');
-
-                                    var jogos_carrinho = json.decode(resposta.body);
-                                    Navigator.pushNamed(context, ShoppingCartPage.rota, arguments :{'Carrinho': jogos_carrinho});
-                                });*/
-
                                 Navigator.pushNamed(context, ShoppingCartPage.rota);
 
                             },
@@ -81,6 +73,7 @@ class StorePageState extends State<StorePage>
                 {
                     logout();
 
+                    // Remove todas as telas e navega para o login
                     Navigator.pushNamedAndRemoveUntil(context, LoginPage.rota, (route) => false);
                 },
                 child: Icon(Icons.logout_rounded),
@@ -112,20 +105,13 @@ class StorePageState extends State<StorePage>
                                     // Mostra apenas parte da descrição
                                     subtitle: Text(jogos[index]['Descricao'].toString().substring(0, 40)+'...'),
 
+                                    // Botão para acessar os detalhes do jogo
                                     trailing: FloatingActionButton
                                     (
                                         heroTag: null,
                                         child: Icon(Icons.add_shopping_cart),
                                         onPressed: ()
                                         {
-                                            /*// Comprar jogos utiliza o nome do jogo
-                                            comprarJogos(jogos[index]['Nome']).then((response)
-                                            {
-                                                dynamic resultado = response.body;
-                                                print('Resultado = ${resultado}');
-                                            });
-                                            */
-
                                             Navigator.pushNamed(context, GamePage.rota, arguments: {'Jogo': jogos[index]});
                                         }
                                     )
@@ -133,6 +119,8 @@ class StorePageState extends State<StorePage>
                             },
                         ),
                     ),
+
+                    SizedBox(height: 75),
                 ],
             ),
         );

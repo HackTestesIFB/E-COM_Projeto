@@ -7,6 +7,7 @@ import 'cadastro.dart';
 import 'request.dart';
 import 'game.dart';
 import 'shopping_cart.dart';
+import 'splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -27,10 +28,11 @@ class MeuApp extends StatelessWidget
         return MaterialApp
         (
             title: 'Loja de jogos',
-            initialRoute: LoginPage.rota,
+            initialRoute: SplashScreen.rota, // Começa nessa tela e depois navega para o login ou para a loja
             routes:
             {
                 LoginPage.rota : (context) => LoginPage(),
+                SplashScreen.rota : (context) => SplashScreen(),
                 StorePage.rota: (context) => StorePage(),
                 RegisterPage.rota: (context) => RegisterPage(),
                 GamePage.rota: (context) => GamePage(),

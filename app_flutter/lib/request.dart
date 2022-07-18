@@ -42,7 +42,7 @@ Future retirarItemCarrinho(String nome_jogo) async
     return await http.post(Uri.http('localhost:8000', '/deleteItemCarrinho'), headers: {"Content-Type": "application/json"}, body: json.encode({'idUsuario': '$id_usuario', 'idProduto': '$nome_jogo'}));
 }
 
-//
+
 Future listasCarrinho() async
 {
     final prefs = await SharedPreferences.getInstance();

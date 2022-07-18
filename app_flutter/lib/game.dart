@@ -19,7 +19,7 @@ class GamePage extends StatelessWidget
         String titulo = jogo['Nome'];
         String descricao = jogo['Descricao'];
         String imagem_link = jogo['Imagem_capa'];
-        int preco = jogo['Valor'];
+        double preco = jogo['Valor'].toDouble();
 
         return Scaffold
         (

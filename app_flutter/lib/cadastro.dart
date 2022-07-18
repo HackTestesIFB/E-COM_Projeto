@@ -34,20 +34,6 @@ class RegisterPageState extends State<RegisterPage>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>
                 [
-                    /*Padding
-                    (
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                        child: TextField
-                        (
-                            controller: _nome_completo,
-                            decoration: const InputDecoration
-                            (
-                                border: OutlineInputBorder(),
-                                labelText: 'Nome completo',
-                            ),
-                        ),
-                    ),*/
-
                     Padding
                     (
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -61,20 +47,6 @@ class RegisterPageState extends State<RegisterPage>
                             ),
                         ),
                     ),
-
-                    /*Padding
-                    (
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                        child: TextField
-                        (
-                            controller: _telefone,
-                            decoration: const InputDecoration
-                            (
-                                border: OutlineInputBorder(),
-                                labelText: 'Telefone',
-                            ),
-                        ),
-                    ),*/
 
                     Padding
                     (
@@ -140,7 +112,7 @@ class RegisterPageState extends State<RegisterPage>
         );
     }
 
-
+    // Limpeza dos dados - evita vazamentos de memória
     @override
     void dispose()
     {

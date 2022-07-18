@@ -19,13 +19,14 @@ class ShoppingCartPage extends StatefulWidget
 class ShoppingCartPageState extends State<ShoppingCartPage>
 {
     var carrinho = [];
-    int total = 0;
+    double total = 0;
 
     void initState()
     {
         this.atualizaCarrinho();
     }
 
+    // Função que atualiza a interface do carrinho
     void atualizaCarrinho()
     {
         listasCarrinho().then((resposta)
@@ -41,11 +42,10 @@ class ShoppingCartPageState extends State<ShoppingCartPage>
                     total = 0;
                     this.carrinho.forEach((current)
                     {
-                        //this.total += int.parse(current['precoProduto']);
-                        total = total + current["precoProduto"] as int;
-                        print('Value:${current["precoProduto"]},  Type: ${current["precoProduto"].runtimeType}');
+                        total = total + current["precoProduto"] as double; // Conversão para um valor que dê para somar
                     });
                 }
+                // Carrinho é vazio ou não existe
                 else
                 {
                     total = 0;
@@ -64,52 +64,10 @@ class ShoppingCartPageState extends State<ShoppingCartPage>
                 title: const Text('Carrinho'),
             ),
 
-            /*floatingActionButton: FloatingActionButton
-            (
-                heroTag: null,
-                onPressed: () async
-                {
-                    logout();
-
-                    Navigator.pushNamedAndRemoveUntil(context, LoginPage.rota, (route) => false);
-                },
-                child: Icon(Icons.logout_rounded),
-            ),*/
-
             body: Column
             (
                 children:
                 [
-                    Padding
-                    (
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                        child: ElevatedButton
-                        (
-                            onPressed: () async
-                            {
-                                dynamic resposta_compras = await aceitarComprasCarrinho();
-
-                                dynamic resgatar_compras = await verCompras();
-
-                                print('resposta_compras-> Body: {${resposta_compras.body}}, Status code: ${resposta_compras.statusCode} \n\nresgatar_compras-> Body: {${resgatar_compras.body}}, Status code: ${resgatar_compras.statusCode}');
-
-                                atualizaCarrinho();
-                            },
-
-                            child: const Text('Aceitar todas as compras', style: TextStyle(fontSize: 20)),
-                            style: ElevatedButton.styleFrom
-                            (
-                                primary: Colors.green,
-                            ),
-                        ),
-                    ),
-
-                    Padding
-                    (
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                        child: Text('Total: R\$${total}', style: TextStyle(fontSize: 25)),
-                    ),
-
                     Expanded
                     (
                         child: ListView.builder
@@ -122,17 +80,38 @@ class ShoppingCartPageState extends State<ShoppingCartPage>
                                     title: Padding
                                     (
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                                        child: Text
+                                        child: Row
                                         (
-                                            'R\$${carrinho[index]['precoProduto']} - ' + carrinho[index]['idProduto'],
-                                            style: const TextStyle
-                                            (
-                                                fontSize: 20,
-                                                color: Colors.black
-                                            )
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children:
+                                            [
+                                                Flexible
+                                                (
+                                                    child: Text
+                                                    (
+                                                        carrinho[index]['idProduto'],
+                                                        style: const TextStyle
+                                                        (
+                                                            fontSize: 20,
+                                                            color: Colors.black
+                                                        )
+                                                    ),
+                                                ),
+
+                                                Text
+                                                (
+                                                    'R\$${carrinho[index]['precoProduto'].toDouble()}',
+                                                    style: const TextStyle
+                                                    (
+                                                        fontSize: 20,
+                                                        color: Colors.black
+                                                    )
+                                                ),
+                                            ],
                                         ),
                                     ),
 
+                                    // Botão para retirar do carrinho
                                     trailing: FloatingActionButton
                                     (
                                         heroTag: null,
@@ -152,6 +131,54 @@ class ShoppingCartPageState extends State<ShoppingCartPage>
                             },
                         ),
                     ),
+
+                    Padding
+                    (
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                        child: ElevatedButton
+                        (
+                            onPressed: () async
+                            {
+                                dynamic resposta_compras = await aceitarComprasCarrinho();
+
+                                dynamic resgatar_compras = await verCompras();
+
+                                print('resposta_compras-> Body: {${resposta_compras.body}}, Status code: ${resposta_compras.statusCode} \n\nresgatar_compras-> Body: {${resgatar_compras.body}}, Status code: ${resgatar_compras.statusCode}');
+
+                                // Compra realizada com sucesso
+                                if(resposta_compras.statusCode == 201)
+                                {
+                                    showDialog
+                                    (
+                                        context: context,
+                                        builder: (BuildContext context)
+                                        {
+                                            return AlertDialog
+                                            (
+                                                title: Text('Sucesso!'),
+                                                content: Text('Compra realizada!!!'),
+                                            );
+                                        }
+                                    );
+                                }
+
+                                atualizaCarrinho();
+                            },
+
+                            child: const Text('Aceitar todas as compras', style: TextStyle(fontSize: 20)),
+                            style: ElevatedButton.styleFrom
+                            (
+                                primary: Colors.green,
+                            ),
+                        ),
+                    ),
+
+                    Padding
+                    (
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                        child: Text('Total: R\$${total}', style: TextStyle(fontSize: 25)),
+                    ),
+
                 ],
             ),
         );
